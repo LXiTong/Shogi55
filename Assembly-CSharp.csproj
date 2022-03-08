@@ -65,9 +65,11 @@
     <Compile Include="Assets\Scripts\UIScripts\TextScript.cs" />
     <Compile Include="Assets\Scripts\PieceType.cs" />
     <Compile Include="Assets\Scripts\UIScripts\UndoButtScript.cs" />
+    <Compile Include="Assets\Scripts\Checkmate.cs" />
     <Compile Include="Assets\Scripts\PieceInfo.cs" />
     <Compile Include="Assets\Scripts\Promotion.cs" />
-    <Compile Include="Assets\Scripts\Checkmate.cs" />
+    <Compile Include="Assets\Scripts\UIScripts\RestartPanelScript.cs" />
+    <Compile Include="Assets\Scripts\UIScripts\RestartButtScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
