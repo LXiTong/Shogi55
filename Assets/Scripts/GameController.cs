@@ -332,7 +332,7 @@ public class GameController : MonoBehaviour
     public void GameOver(PieceInfo kingInfo)
     {
         Text text = gameOverWarning.transform.GetChild(0).GetComponent<Text>();
-        if(kingInfo.owner == 1)
+        if(kingInfo.owner == 2)
         {
             text.text = "后手玩家胜利!";
         }

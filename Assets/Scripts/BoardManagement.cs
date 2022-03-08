@@ -20,9 +20,9 @@ public static class BoardManagement
 
     /// <summary>
     /// 当前可行动的玩家
-    /// 先手玩家 = 1，后手玩家 = 2
+    /// 先手玩家 = 2，后手玩家 = 1
     /// </summary>
-    public static int currentActor = 1;
+    public static int currentActor = 2;
     /// <summary>
     /// 改变当前行动玩家
     /// </summary>

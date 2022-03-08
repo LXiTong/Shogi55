@@ -14,7 +14,7 @@ public class TextScript : MonoBehaviour
     
     void FixedUpdate()
     {
-        if(BoardManagement.currentActor == 1)
+        if(BoardManagement.currentActor == 2)
         {
             text.text = "当前玩家：先手玩家";
         }

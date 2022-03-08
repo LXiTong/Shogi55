@@ -58,31 +58,31 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 1488}
     - Class: 114
-      Script: {instanceID: 1880}
+      Script: {instanceID: 1660}
     - Class: 114
-      Script: {instanceID: 2216}
+      Script: {instanceID: 1882}
     - Class: 114
-      Script: {instanceID: 2340}
+      Script: {instanceID: 2218}
     - Class: 114
-      Script: {instanceID: 2614}
+      Script: {instanceID: 2342}
     - Class: 114
-      Script: {instanceID: 2646}
+      Script: {instanceID: 2616}
     - Class: 114
-      Script: {instanceID: 2826}
+      Script: {instanceID: 2648}
     - Class: 114
-      Script: {instanceID: 2872}
+      Script: {instanceID: 2698}
     - Class: 114
-      Script: {instanceID: 3052}
+      Script: {instanceID: 2830}
     - Class: 114
-      Script: {instanceID: 3172}
+      Script: {instanceID: 2876}
     - Class: 114
-      Script: {instanceID: 3372}
+      Script: {instanceID: 3056}
     - Class: 114
-      Script: {instanceID: 3508}
+      Script: {instanceID: 3176}
     - Class: 114
-      Script: {instanceID: 17470}
+      Script: {instanceID: 3376}
     - Class: 114
-      Script: {instanceID: 18094}
+      Script: {instanceID: 3512}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -162,6 +162,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: RestartButtScript
   - hash:
       serializedVersion: 2
       Hash: 6bc76e17f0d5e93f3eea7f5a2fe227f3
@@ -392,6 +398,12 @@ ScriptsOnlyBuild:
     className: TMP_Settings
   - hash:
       serializedVersion: 2
+      Hash: 235a1e8275c5d1ab2a1c0f017d90e1b5
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: RestartPanelScript
+  - hash:
+      serializedVersion: 2
       Hash: cf9f5cf2c3145a37ac07f00e50e460f9
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -564,19 +576,7 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TextContainer
-  - hash:
-      serializedVersion: 2
-      Hash: 235a1e8275c5d1ab2a1c0f017d90e1b5
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: RestartPanelScript
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: RestartButtScript
   platform: 19
   scenePathNames:
   - Assets/Scenes/Shogi55.unity
-  playerPath: "F:/\u6587\u6863/code/Unity/new/Shogi55-3D.exe"
+  playerPath: "F:/\u6587\u6863/code/Unity/Shogi55-3D v0.1/Shogi55-3D.exe"
