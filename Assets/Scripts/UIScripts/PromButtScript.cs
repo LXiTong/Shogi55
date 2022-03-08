@@ -19,11 +19,19 @@ public class PromButtScript : MonoBehaviour
     public void YesButtFunc()
     {
         controller.Promote();
+        //判断是否王手
+        PieceInfo info = controller.lastMovePiece.GetComponent<PieceInfo>();
+        controller.SentWarning(info);
+
         panel.SetActive(false);
     }
 
     public void NoButtFunc()
     {
+        //判断是否王手
+        PieceInfo info = controller.lastMovePiece.GetComponent<PieceInfo>();
+        controller.SentWarning(info);
+
         BoardManagement.ChangeActor();
         panel.SetActive(false);
     }

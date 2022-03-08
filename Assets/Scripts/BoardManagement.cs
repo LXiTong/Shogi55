@@ -4,7 +4,13 @@ using UnityEngine;
 
 public static class BoardManagement
 {
+    /// <summary>
+    /// 棋盘尺寸
+    /// </summary>
     public static int boardSize = 5;
+    /// <summary>
+    /// 方格尺寸
+    /// </summary>
     public static float squareSize = 1;
 
     /// <summary>
@@ -38,21 +44,31 @@ public static class BoardManagement
     /// </summary>
     public static Transform[] pieceStand1 = new Transform[19];
     /// <summary>
-    /// 玩家1手中棋子数量
+    /// 下一个放入玩家1驹台的棋子的位置编号
     /// </summary>
-    public static int capturePieLoca1 = 0;
+    public static int capturePieLoca1 = 0;    
     /// <summary>
     /// 玩家2的驹台
     /// </summary>
     public static Transform[] pieceStand2 = new Transform[19];
     /// <summary>
-    /// 玩家2手中棋子数量
+    /// 下一个放入玩家1驹台的棋子的位置编号
     /// </summary>
     public static int capturePieLoca2 = 0;
+    /// <summary>
+    /// 玩家手中棋子数量
+    /// </summary>
+    public static int[] captPieNum = new int[2] { 0, 0 };
 
     public static Vector3 pieceStandLoca1 = new Vector3(-2, -3, -0.55f);
     public static Vector3 pieceStandLoca2 = new Vector3(2, 3, -0.55f);
 
+    /// <summary>
+    /// 获取下一个放入驹台的棋子的位置编号
+    /// </summary>
+    /// <param name="pieceStand"></param>
+    /// <param name="owner"></param>
+    /// <param name="pieceOut"></param>
     public static void GetPieStaLoca(Transform[] pieceStand, int owner, Transform pieceOut = null)
     {
         for(int i=0; i<pieceStand.Length; i++)
@@ -84,14 +100,13 @@ public static class BoardManagement
         piece.SetParent(null);
 
         PieceInfo info = piece.GetComponent<PieceInfo>();
-        info.isInHand = true;        
+        info.isInHand = true;
+        captPieNum[info.owner - 1]++;
         if (info.owner == 1)
         {
             GetPieStaLoca(pieceStand1, 1);
             pieceStand1[capturePieLoca1] = piece;
-            piece.SetPositionAndRotation(pieceStandLoca1, Quaternion.Euler(0, 90, 0));
-                       
-            
+            piece.SetPositionAndRotation(pieceStandLoca1, Quaternion.Euler(0, 90, 0));           
         }
         else
         {
@@ -108,14 +123,14 @@ public static class BoardManagement
     {
         PieceInfo info = piece.GetComponent<PieceInfo>();
         info.isInHand = false;
+        captPieNum[info.owner - 1]--;
         if (info.owner == 1)
-        {
+        {            
             GetPieStaLoca(pieceStand1, 1, piece);
-            pieceStand1[capturePieLoca1] = null;
-            
+            pieceStand1[capturePieLoca1] = null;            
         }
         else
-        {
+        {            
             GetPieStaLoca(pieceStand2, 2, piece);
             pieceStand2[capturePieLoca2] = null;
         }
@@ -140,6 +155,23 @@ public static class BoardManagement
         else
         {
             piece = currentComplexion[locationX, locationY];
+            return false;
+        }
+    }
+    /// <summary>
+    /// 判断某方格上是否有棋子
+    /// </summary>
+    /// <param name="locationX">此方格的横坐标</param>
+    /// <param name="locationY">此方格的纵坐标</param>
+    /// <returns></returns>
+    public static bool IsSquareEmpty(int locationX, int locationY)
+    {
+        if (currentComplexion[locationX, locationY] == null)
+        {            
+            return true;
+        }
+        else
+        {            
             return false;
         }
     }

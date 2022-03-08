@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -10,7 +12,12 @@ public class GameController : MonoBehaviour
     public GameObject square, king1, king2, rook, bishop, gold, silver, pawn;
     public Material proRookMaterial, proBishopMaterial, proSilverMaterial, proPawnMaterial;
 
-    public GameObject canvas, proInquirePanel;
+    public GameObject canvas, proInquirePanel, checkWarning, gameOverWarning;
+
+    /// <summary>
+    /// 是否出现过王手
+    /// </summary>
+    public bool isCheckBefore = false;
 
     GameObject[] perfebs1 = new GameObject[5];
     GameObject[] perfebs2 = new GameObject[5];
@@ -55,6 +62,11 @@ public class GameController : MonoBehaviour
     public Transform lastCaptPiecePare;
 
     /// <summary>
+    /// 王将和玉将的信息
+    /// </summary>
+    public PieceInfo[] kingInfo = new PieceInfo[2];
+
+    /// <summary>
     /// 生成棋子
     /// </summary>
     /// <param name="posi"></param>
@@ -85,6 +97,12 @@ public class GameController : MonoBehaviour
         info.locationX = i;
         info.locationY = j;
         info.owner = own;
+
+        //保存王将和玉将的信息
+        if(info.pieceType == PieceType.King)
+        {
+            kingInfo[info.owner - 1] = info;
+        }
     }
     /// <summary>
     /// 生成棋子
@@ -122,13 +140,16 @@ public class GameController : MonoBehaviour
     void Move(int inputX, int inputY, Transform hitTra, bool isCapture)
     {
         PieceInfo pieceInfo = selectedPiece.GetComponent<PieceInfo>();
+        PieceInfo hitInfo = hitTra.GetComponent<PieceInfo>();
 
         pieceInfo.Move(inputX, inputY);
+        //记录本次移动的棋子
         lastMovePiece = selectedPiece;
         lastMovePiecePare = selectedPiece.parent;
         if (isCapture)
-        {
+        {            
             selectedPiece.parent = hitTra.parent;
+            //记录被捕获的棋子
             lastCaptPiece = hitTra;
             lastCaptPiecePare = hitTra.parent;
         }
@@ -139,30 +160,40 @@ public class GameController : MonoBehaviour
             lastCaptPiecePare = null;
             
         }
+        //移动棋子
         selectedPiece.localPosition = new Vector3(0, 0, -0.55f);
+        selectedPiece = null;
 
         if (pieceInfo.lastStepIsProm)
         {
             pieceInfo.lastStepIsProm = false;
         }
         
-        selectedPiece = null;
-        if (pieceInfo.IsPromotable(pieceInfo) && !didLastMoveIsDrop)
+        //判断是否提示棋子晋升/直接晋升棋子
+        if (pieceInfo.IsPromotable(pieceInfo) && !didLastMoveIsDrop && !IsGameOver(hitInfo))
         {
             if (pieceInfo.IsPieceWithNoMoves(pieceInfo.locationY, pieceInfo))
             {
                 Promote();
+                //发送 王手/诘 提示
+                SentWarning(pieceInfo);
             }
             else
             {
                 //Instantiate(proInquirePanel, canvas.transform);
+
+                //玩家选择是否升变
                 proInquirePanel.SetActive(true);
             }           
         }
         else
-        {
+        {            
+            //发送 王手/诘 提示
+            SentWarning(pieceInfo);
             BoardManagement.ChangeActor();
         }
+
+        
     }
     /// <summary>
     /// 撤销棋子移动
@@ -217,14 +248,114 @@ public class GameController : MonoBehaviour
         BoardManagement.ChangeActor();
     }
 
+    /// <summary>
+    /// 发送 王手/诘 提示
+    /// </summary>
+    /// <param name="pieceInfo"></param>
+    public void SentWarning(PieceInfo pieceInfo)
+    {
+        if (pieceInfo.CanCapture(kingInfo[2 - pieceInfo.owner]))
+        {
+            Debug.Log(kingInfo[2 - pieceInfo.owner].owner);
+            if (!Checkmate.IsCheckmate(kingInfo[2 - pieceInfo.owner]))
+            {
+                checkWarning.transform.GetChild(0).GetComponent<Text>().text = "王手";
+            }
+            else
+            {
+                checkWarning.transform.GetChild(0).GetComponent<Text>().text = "诘";
+            }
+
+            //记录是否出现过王手
+            isCheckBefore = true;
+
+            checkWarning.SetActive(true);
+            //一段时间后关闭 王手/诘 提示
+            Invoke(nameof(CheckWarningTurnOff), 2);
+
+            return;
+        }
+        if (isCheckBefore)
+        {
+            if (Checkmate.IsCheckmate(kingInfo[2 - pieceInfo.owner]))
+            {
+                checkWarning.transform.GetChild(0).GetComponent<Text>().text = "诘";
+                checkWarning.SetActive(true);
+                //一段时间后关闭 诘提示
+                Invoke(nameof(CheckWarningTurnOff), 2);
+            }            
+        }                     
+    }
+
+    /// <summary>
+    /// 关闭王手提示
+    /// </summary>
+    public void CheckWarningTurnOff()
+    {
+        checkWarning.SetActive(false);
+    }
+    /// <summary>
+    /// 关闭游戏结束提示
+    /// </summary>
+    public void GameOverWarningTurnOff()
+    {
+        gameOverWarning.SetActive(false);
+    }
+
+    /// <summary>
+    /// 判断被捕获的棋子是否为王将
+    /// </summary>
+    /// <param name="pieceInfo">被捕获的棋子</param>
+    /// <returns></returns>
+    public bool IsGameOver(PieceInfo pieceInfo)
+    {
+        if(pieceInfo != null)
+        {
+            if (pieceInfo.pieceType == PieceType.King)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }       
+    }
+    /// <summary>
+    /// 游戏结束
+    /// </summary>
+    /// <param name="kingInfo">被捕获的王将的信息</param>
+    public void GameOver(PieceInfo kingInfo)
+    {
+        Text text = gameOverWarning.transform.GetChild(0).GetComponent<Text>();
+        if(kingInfo.owner == 1)
+        {
+            text.text = "后手玩家胜利!";
+        }
+        else
+        {
+            text.text = "先手玩家胜利!";
+        }
+        gameOverWarning.SetActive(true);
+        Invoke(nameof(GameOverWarningTurnOff), 2);
+    }
+
     void Start()
     {
         boardSize = BoardManagement.boardSize;
         squareSize = BoardManagement.squareSize; 
         squareLoca = (boardSize - 1) * squareSize / 2;
         canvas = GameObject.Find("Canvas");
-        proInquirePanel = GameObject.Find("PromotInquirePanel");
+        proInquirePanel = GameObject.Find("PromotInquirePanel");        
         proInquirePanel.SetActive(false);
+        checkWarning = GameObject.Find("CheckWarning");
+        CheckWarningTurnOff();
+        gameOverWarning = GameObject.Find("GameOverWarning");
+        GameOverWarningTurnOff();
 
         #region 生成棋盘与棋子
         perfebs1 = new GameObject[5] { rook, bishop, silver, gold, king1 };
@@ -284,8 +415,9 @@ public class GameController : MonoBehaviour
                         //选中棋子是否在驹台
                         if (!pieceInfo.isInHand)
                         {
-                            int inputX = hitTra.GetComponent<PieceInfo>().locationX;
-                            int inputY = hitTra.GetComponent<PieceInfo>().locationY;
+                            PieceInfo hitInfo = hitTra.GetComponent<PieceInfo>();
+                            int inputX = hitInfo.locationX;
+                            int inputY = hitInfo.locationY;
 
                             //是否可移动至此方格
                             if (pieceInfo.IsMovable(inputX, inputY))
@@ -293,8 +425,13 @@ public class GameController : MonoBehaviour
                                 didLastMoveIsDrop = false;
                                 isLastMoveCapture = true;                                
                                 Move(inputX, inputY, hitTra, isLastMoveCapture);
+                                //当王将被捕获时游戏结束
+                                if (IsGameOver(hitInfo))
+                                {
+                                    GameOver(hitInfo);
+                                }
                                 //捕获棋子
-                                pieceInfo.Capture(hitTra);
+                                pieceInfo.Capture(hitTra);                               
                             }
                         }
                     }                   
@@ -314,7 +451,7 @@ public class GameController : MonoBehaviour
                         if (pieceInfo.isInHand)
                         {
                             //是否可打出至此方格
-                            if (pieceInfo.CanDropped(inputX, inputY, pieceInfo))
+                            if (pieceInfo.CanDropped(inputX, inputY))
                             {
                                 BoardManagement.OutPieceStand(selectedPiece);
                                 didLastMoveIsDrop = true;

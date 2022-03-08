@@ -56,17 +56,18 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\PieceInfo.cs" />
-    <Compile Include="Assets\Scripts\PieceType.cs" />
-    <Compile Include="Assets\Scripts\Promotion.cs" />
-    <Compile Include="Assets\Scripts\Drops.cs" />
-    <Compile Include="Assets\Scripts\GameController.cs" />
     <Compile Include="Assets\Scripts\SquareInfo.cs" />
     <Compile Include="Assets\Scripts\BoardManagement.cs" />
     <Compile Include="Assets\Scripts\Movement.cs" />
+    <Compile Include="Assets\Scripts\GameController.cs" />
+    <Compile Include="Assets\Scripts\Drops.cs" />
     <Compile Include="Assets\Scripts\UIScripts\PromButtScript.cs" />
     <Compile Include="Assets\Scripts\UIScripts\TextScript.cs" />
+    <Compile Include="Assets\Scripts\PieceType.cs" />
     <Compile Include="Assets\Scripts\UIScripts\UndoButtScript.cs" />
+    <Compile Include="Assets\Scripts\PieceInfo.cs" />
+    <Compile Include="Assets\Scripts\Promotion.cs" />
+    <Compile Include="Assets\Scripts\Checkmate.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

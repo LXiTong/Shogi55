@@ -133,22 +133,19 @@ public abstract class Movement : MonoBehaviour
     {
         lastLocaX = locationX;
         lastLocaY = locationY;
-
         BoardManagement.currentComplexion[lastLocaX, lastLocaY] = null;
-        BoardManagement.currentComplexion[locationX, locationY] = GetComponent<Transform>();
-
         locationX = inputX;
-        locationY = inputY;        
+        locationY = inputY;
+        BoardManagement.currentComplexion[locationX, locationY] = GetComponent<Transform>();               
     }
     /// <summary>
     /// ³·»ØÆå×ÓÒÆ¶¯
     /// </summary>
     public void UndoMove()
     {
+        BoardManagement.currentComplexion[locationX, locationY] = null;
         locationX = lastLocaX;
-        locationY = lastLocaY;
-
-        BoardManagement.currentComplexion[lastLocaX, lastLocaY] = null;
+        locationY = lastLocaY;        
         BoardManagement.currentComplexion[locationX, locationY] = GetComponent<Transform>();
 
         lastLocaX = 0;

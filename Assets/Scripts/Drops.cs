@@ -38,27 +38,5 @@ public abstract class Drops : Movement
     /// </summary>
     /// <param name="locationX">此方格的横坐标</param>
     /// <param name="locationY">此方格的纵坐标</param>
-    /// <param name="piece">被打出的棋子</param>
-    public bool CanDropped(int locationX, int locationY, PieceInfo piece)
-    {        
-        if (IsPieceWithNoMoves(locationY, piece))
-        {
-            return false;
-        }
-        else if (piece.pieceType == PieceType.Pawn)
-        {
-            //“二步”规则
-            if (TwoPawns(locationX))
-            {
-                return false;
-            }
-
-            //“打步诘”规则
-             
-
-        }
-        return true;
-        
-        
-    }
+    public abstract bool CanDropped(int locationX, int locationY);
 }
