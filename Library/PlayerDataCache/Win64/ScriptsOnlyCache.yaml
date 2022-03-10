@@ -579,4 +579,4 @@ ScriptsOnlyBuild:
   platform: 19
   scenePathNames:
   - Assets/Scenes/Shogi55.unity
-  playerPath: "F:/\u6587\u6863/code/Unity/Shogi55-3D v0.1/Shogi55-3D.exe"
+  playerPath: "F:/\u6587\u6863/Unity/Shogi55-3D v0.1/Shogi55-3D.exe"

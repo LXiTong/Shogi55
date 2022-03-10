@@ -567,8 +567,12 @@ public class PieceInfo : Promotion
             info.GetComponent<MeshRenderer>().material = info.normMaterial;
             #endregion
         }
+        if(info.pieceType != PieceType.King)
+        {
+            BoardManagement.InPieceStand(piece);
+        }
 
-        BoardManagement.InPieceStand(piece);
+        
     }
     /// <summary>
     /// ³·Ïú²¶»ñÆå×Ó

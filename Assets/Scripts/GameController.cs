@@ -340,6 +340,13 @@ public class GameController : MonoBehaviour
         {
             text.text = "先手玩家胜利!";
         }
+        //王将 从棋盘上消失
+        kingInfo.gameObject.SetActive(false);
+        //禁止玩家操作棋子
+        BoardManagement.currentActor = 0;
+        //禁止悔棋
+        lastMovePiece = null;
+
         gameOverWarning.SetActive(true);
         Invoke(nameof(GameOverWarningTurnOff), 2);
     }

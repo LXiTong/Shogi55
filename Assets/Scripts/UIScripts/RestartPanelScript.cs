@@ -14,6 +14,8 @@ public class RestartPanelScript : MonoBehaviour
 
     public void YesButtFunc()
     {
+        //设置先手玩家
+        BoardManagement.currentActor = 2;
         SceneManager.LoadScene(0);
     }
 

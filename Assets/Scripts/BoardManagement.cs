@@ -32,7 +32,7 @@ public static class BoardManagement
         {
             currentActor = 2;
         }
-        else
+        else if(currentActor == 2)
         {
             currentActor = 1;
         }

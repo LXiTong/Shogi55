@@ -18,9 +18,13 @@ public class TextScript : MonoBehaviour
         {
             text.text = "当前玩家：先手玩家";
         }
-        else
+        else if(BoardManagement.currentActor == 1)
         {
             text.text = "当前玩家：后手玩家";
+        }
+        else
+        {
+            text.text = "不可行动";
         }
         
     }
